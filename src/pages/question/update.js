@@ -1,8 +1,8 @@
+import React from 'react';
 import Layout from '../../components/Layout'
 import Sidebar from '../../components/admin/SidebarComponent'
-import React, { useState, useEffect } from 'react';
-import UpdateSubjectComponent from '../../components/admin/subject/UpdateSubjectComponent';
-const SubjectIndex = () => {
+import UpdateQuestionComponent from '../../components/admin/question/UpdateQuestionComponent'
+const AddQuestion = () => {
 
     return (
         <Layout>
@@ -30,11 +30,11 @@ const SubjectIndex = () => {
 
                     <div className="content-wrapper">
 
-                        <UpdateSubjectComponent />
+                        <UpdateQuestionComponent />
                     </div>
                 </div>
             </div>
         </Layout >
     )
 }
-export default SubjectIndex;
+export default AddQuestion;

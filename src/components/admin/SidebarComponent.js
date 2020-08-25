@@ -48,10 +48,13 @@ function Sidebar() {
                             </a>
                         </Link>
                     </li>
+
                     <li className="nav-item">
-                        <a href="" className="nav-link">
-                            <i className="icon-question3"></i> <span>Câu hỏi</span>
-                        </a>
+                        <Link href="/question">
+                            <a href="" className="nav-link">
+                                <i className="icon-question3"></i> <span>Câu hỏi</span>
+                            </a>
+                        </Link>
                     </li>
                     <li className="nav-item">
                         <a href="" className="nav-link">

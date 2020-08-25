@@ -37,7 +37,7 @@ function IndexSubjectComponent() {
                                             <td>10</td>
                                             <td>Nguyễn Phước Thượng</td>
                                             <td>
-                                                <a href="/dashboard/subjects/edit/12" className="btn btn-warning btn-sm px-1 py-0 mr-2" title="Sửa"><i className="fas fa-edit"></i></a>
+                                                <Link href="/subject/update"><a className="btn btn-warning btn-sm px-1 py-0 mr-2" title="Sửa"><i className="fas fa-edit"></i></a></Link>
                                                 <a href="/dashboard/subjects/delete/12" className="btn btn-danger btn-sm px-1 py-0" title="Xóa"><i className="fas fa-trash-alt"></i></a>
                                             </td>
                                         </tr>
