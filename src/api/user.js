@@ -2,6 +2,9 @@ import fetch from 'isomorphic-fetch';
 import { API_CONFIG } from '../constants/index';
 import * as helpers from '../helpers/help'
 
+
+
+
 export const Register = user => {
     console.log(user);
     return fetch(`${API_CONFIG}/auth/signup`, {
@@ -64,6 +67,19 @@ export const checkLoginUser = (data) => {
         .catch(err => console.log(err));
 };
 
+export const getListUser = token => {
+    return fetch(`${API_CONFIG}/user/list`, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
 
 
 // autheticate user by pass data to cookie and localstorage

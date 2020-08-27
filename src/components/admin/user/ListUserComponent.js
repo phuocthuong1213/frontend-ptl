@@ -1,7 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { isAuth } from '../../../helpers/help';
+import { isAuth, getCookie } from '../../../helpers/help';
 import Sidebar from '../SidebarComponent';
+import { getListUser } from '../../../api/user';
+import { connect } from 'react-redux';
 const ListUserComponent = () => {
+
+    const [data, setData] = useState([]);
+    const token = getCookie('token')
+
+    useEffect(() => {
+        async function fetchUserList() {
+            const response = await getListUser(token)
+            setData(response)
+        }
+
+        fetchUserList()
+    }, [])
+
+
+    const renderListUser = () => {
+        let listItems = data.map((user, index) => {
+            return (
+                <tbody key={index}>
+                    <tr className="text-dark text-center">
+                        <td>{index + 1}</td>
+                        <td>{user.firstname} {user.lastname}</td>
+                        <td>
+                            {user.roleType === "0" ? "Admin" : ''}
+                            {user.roleType === "1" ? "Người chơi" : ''}
+                            {user.roleType === "2" ? "Người dẫn" : ''}
+                        </td>
+                        <td>
+                            <a href="/dashboard/subjects/edit/12" className="btn btn-warning btn-sm px-1 py-0 mr-2" title="Sửa" ><i className="fas fa-edit"></i></a>
+                            <a href="/dashboard/subjects/delete/12" className="btn btn-danger btn-sm px-1 py-0" title="Xóa"><i className="fas fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            )
+        })
+        return listItems
+    }
 
     const listUserForm = () => (
         <div className="body">
@@ -48,24 +86,14 @@ const ListUserComponent = () => {
                                                     <th>Thao tác</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr className="text-dark text-center">
-                                                    <td>1</td>
-                                                    <td>Nguyễn Phước Thượng</td>
-                                                    <td>Admin</td>
-                                                    <td>
-                                                        <a href="/dashboard/subjects/edit/12" className="btn btn-warning btn-sm px-1 py-0 mr-2" title="Sửa" ><i className="fas fa-edit"></i></a>
-                                                        <a href="/dashboard/subjects/delete/12" className="btn btn-danger btn-sm px-1 py-0" title="Xóa"><i className="fas fa-trash-alt"></i></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
+                                            {renderListUser()}
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="row">
+                    {/* <div className="row">
                         <div className="col-md-6 offset-md-4 col-sm-6 offset-sm-3">
                             <div className="text-xs-center">
                                 <ul className="pagination mt-3 ">
@@ -77,7 +105,7 @@ const ListUserComponent = () => {
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div >
         </div >
@@ -90,4 +118,6 @@ const ListUserComponent = () => {
     );
 };
 
-export default ListUserComponent;
+
+
+export default (ListUserComponent);
