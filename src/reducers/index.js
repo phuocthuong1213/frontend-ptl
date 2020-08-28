@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import CheckLogin from './user.reducer'
-import users from './users'
+import AdminUserEditing from './adminUserEditing'
 export default combineReducers({
    user: CheckLogin,
-   getListUser: users
+   AdminUserEditing: AdminUserEditing
 });

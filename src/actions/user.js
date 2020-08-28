@@ -1,23 +1,9 @@
-import * as user from '../constants/ActionTypes'
+import * as types from '../constants/ActionTypes'
 
-export const fetchUsersPending = () => {
+export const adminEditUser = (user) => {
     return {
-        type: user.FETCH_USER_PENDING,
+        type: types.ADMIN_EDIT_USER,
+        user
     }
 }
 
-
-export const fetchUsersSuccess = users => {
-    return {
-        type: user.FETCH_USER_SUCCESS,
-        users: users
-    }
-}
-
-
-export const fetchUsersError = error => {
-    return {
-        type: user.FETCH_USER_ERROR,
-        error: error
-    }
-}

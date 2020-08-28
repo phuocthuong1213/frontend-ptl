@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link'
+import * as actions from './../../../actions/user'
 import { isAuth, getCookie } from '../../../helpers/help';
 import Sidebar from '../SidebarComponent';
 import { getListUser } from '../../../api/user';
 import { connect } from 'react-redux';
-const ListUserComponent = () => {
+const ListUserComponent = (props) => {
 
     const [data, setData] = useState([]);
     const token = getCookie('token')
@@ -31,7 +33,7 @@ const ListUserComponent = () => {
                             {user.roleType === "2" ? "Người dẫn" : ''}
                         </td>
                         <td>
-                            <a href="/dashboard/subjects/edit/12" className="btn btn-warning btn-sm px-1 py-0 mr-2" title="Sửa" ><i className="fas fa-edit"></i></a>
+                            <Link href="/admin/updates"><a className="btn btn-warning btn-sm px-1 py-0 mr-2" title="Sửa" onClick={() => adminEditUser(user)}><i className="fas fa-edit"></i></a></Link>
                             <a href="/dashboard/subjects/delete/12" className="btn btn-danger btn-sm px-1 py-0" title="Xóa"><i className="fas fa-trash-alt"></i></a>
                         </td>
                     </tr>
@@ -39,6 +41,10 @@ const ListUserComponent = () => {
             )
         })
         return listItems
+    }
+
+    const adminEditUser = (user) => {
+        props.adminUpdateUser(user)
     }
 
     const listUserForm = () => (
@@ -118,6 +124,18 @@ const ListUserComponent = () => {
     );
 };
 
+const mapStateToProps = state => {
+    return {
 
+    }
+}
 
-export default (ListUserComponent);
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        adminUpdateUser: (user) => {
+            dispatch(actions.adminEditUser(user))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListUserComponent);

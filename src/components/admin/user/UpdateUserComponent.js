@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { getCookie } from '../../../helpers/help';
 import Sidebar from '../SidebarComponent';
-const UpdateUserComponent = () => {
+const UpdateUserComponent = (props) => {
+    console.log(props);
     const [values, setValues] = useState({
         firstname: '',
         lastname: '',
