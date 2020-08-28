@@ -81,6 +81,20 @@ export const getListUser = token => {
         .catch(err => console.log(err));
 };
 
+export const updateUser = (data) => {
+    return fetch(`${API_CONFIG}/user/update`, {
+        method: 'PUT',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
 
 // autheticate user by pass data to cookie and localstorage
 export const authenticate = (data, next) => {
@@ -98,17 +112,6 @@ export const isAuth = () => {
             } else {
                 return false;
             }
-        }
-    }
-};
-
-export const updateUser = (user, next) => {
-    if (process.browser) {
-        if (localStorage.getItem('user')) {
-            let auth = JSON.parse(localStorage.getItem('user'));
-            auth = user;
-            localStorage.setItem('user', JSON.stringify(auth));
-            next();
         }
     }
 };

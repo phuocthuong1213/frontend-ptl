@@ -6,7 +6,6 @@ import Sidebar from '../SidebarComponent';
 import { getListUser } from '../../../api/user';
 import { connect } from 'react-redux';
 const ListUserComponent = (props) => {
-
     const [data, setData] = useState([]);
     const token = getCookie('token')
 

@@ -1,33 +1,29 @@
-import React, { useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { getCookie } from '../../../helpers/help';
+import { useForm } from 'react-hook-form'
 import Sidebar from '../SidebarComponent';
+import { connect } from 'react-redux';
+import { updateUser } from '../../../api/user';
+import  Router  from 'next/router';
 const UpdateUserComponent = (props) => {
-    console.log(props);
-    const [values, setValues] = useState({
-        firstname: '',
-        lastname: '',
-        password: '',
-        error: false,
-        success: false,
-        avatar: '',
-        userData: ''
-    });
-
-    const token = getCookie('token');
-    const { firstname, lastname, password, error, success, avatar, userData } = values;
-
-    const init = () => {
-
-    };
-
-   
-    const handleChange = name => e => {
-
-    };
-
-    const handleSubmit = e => {
-
-    };
+    const { register, errors, handleSubmit, watch } = useForm();
+    const password = useRef({});
+    password.current = watch("password", "");
+    const onSubmit = data => {
+        const _id = props.adminUpdateUser._id
+        const username = props.adminUpdateUser.username
+        const datas = {
+            _id: _id,
+            username: username,
+            firstname: data.firstname,
+            lastname: data.lastname,
+            password: data.password
+        }
+        updateUser(datas).then((res) => {
+            alert(res.message);
+            Router.push('/admin/listuser')
+        })
+    }
     const profileUpdateForm = () => (
         <div className="body">
             <div className="page-content">
@@ -57,36 +53,74 @@ const UpdateUserComponent = (props) => {
                             <h5 className="card-title">Cập nhật thông tin</h5>
                         </div>
                         <div className="card-body">
-                            <form data-select2-id="45">
+                            <form data-select2-id="45" onSubmit={handleSubmit(onSubmit)}>
                                 <div className="form-group row">
                                     <label className="col-lg-3 col-form-label">Họ</label>
                                     <div className="col-lg-9">
-                                        <input type="text" className="form-control" placeholder="Họ của bạn" />
+                                        <input type="text" className="form-control" placeholder="Họ của bạn" name="firstname"
+                                            ref={register({ required: true })} defaultValue={props.adminUpdateUser.firstname}
+                                        />
+                                        <span className="form-text text-danger">
+                                            <p> {errors.firstname && "Họ không được để trống !!!"}</p></span>
+
                                     </div>
                                 </div>
 
                                 <div className="form-group row">
                                     <label className="col-lg-3 col-form-label">Tên</label>
                                     <div className="col-lg-9">
-                                        <input type="text" className="form-control" placeholder="Tên của bạn" />
+                                        <input type="text" className="form-control" placeholder="Tên của bạn" name="lastname" defaultValue={props.adminUpdateUser.lastname}
+                                            ref={register({ required: true })}
+                                        />
+
+                                        <span className="form-text text-danger">
+                                            <p>{errors.lastname && "Tên không được để trống !!!"}</p></span>
                                     </div>
                                 </div>
 
                                 <div className="form-group row">
                                     <label className="col-lg-3 col-form-label">Mật khẩu </label>
                                     <div className="col-lg-9">
-                                        <input type="password" className="form-control" placeholder="Password" />
+                                        <input type="password" className="form-control" placeholder="Password" name="password"
+                                            ref={register({
+                                                required: true, minLength: 6, maxLength: 15
+                                            })}
+                                        />
+                                        <span className="form-text text-danger">
+                                            {errors.password?.type === "required" &&
+                                                "Mật khẩu không được để trống !!!"}
+                                            <p> {errors.password?.type === "minLength" &&
+                                                "Mật khẩu không được nhỏ hơn 6 ký tự"}</p>
+                                            <p> {errors.password?.type === "maxLength" &&
+                                                "Mật khẩu không được vượt quá 15 ký tự"}</p>
+                                        </span>
                                     </div>
                                 </div>
 
                                 <div className="form-group row">
                                     <label className="col-lg-3 col-form-label">Nhập lại mật khẩu </label>
                                     <div className="col-lg-9">
-                                        <input type="password" className="form-control" placeholder="Confirm password" />
+                                        <input type="password" className="form-control" placeholder="Confirm password" name="confirm_password"
+                                            ref={register({
+                                                required: true, minLength: 6, maxLength: 15,
+                                                validate: value =>
+                                                    value === password.current || "Mật khẩu và nhập lại mật khẩu không trùng nhau!!!"
+                                            })}
+                                        />
+                                        <span className="form-text text-danger">
+                                            {errors.confirm_password?.type === "required" &&
+                                                "Nhập lại mật khẩu không được để trống !!!"}
+                                            <p> {errors.confirm_password?.type === "minLength" &&
+                                                "Nhập lại mật khẩu không được nhỏ hơn 6 ký tự"}</p>
+                                            <p> {errors.confirm_password?.type === "maxLength" &&
+                                                "Nhập lại mật khẩu không được vượt quá 15 ký tự"}</p>
+                                            {errors.confirm_password && <p> {errors.confirm_password.message}</p>}
+                                        </span>
+
                                     </div>
                                 </div>
 
-                                <div className="form-group row">
+                                {/* <div className="form-group row">
                                     <label className="col-lg-3 col-form-label">Hình ảnh </label>
                                     <div className="col-lg-9">
                                         <label className="file">
@@ -94,7 +128,7 @@ const UpdateUserComponent = (props) => {
                                             <span className="file-custom"></span>
                                         </label>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className="text-right">
                                     <button type="submit" className="btn btn-primary">Submit form <i className="icon-paperplane ml-2"></i></button>
                                 </div>
@@ -113,4 +147,13 @@ const UpdateUserComponent = (props) => {
     );
 };
 
-export default UpdateUserComponent;
+
+const mapStateToProps = (state) => {
+    return {
+        adminUpdateUser: state.AdminUserEditing
+    }
+}
+
+
+
+export default connect(mapStateToProps, null)(UpdateUserComponent);

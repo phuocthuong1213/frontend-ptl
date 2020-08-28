@@ -2,17 +2,12 @@ import * as  types from '../constants/ActionTypes'
 
 var initialState = {}
 
-var myReducer = (state = initialState, action) => {
+var AdminUserEditing = (state = initialState, action) => {
     switch (action.type) {
-       
-        case types.ADMIN_EDIT_USER: {
-            console.log(action);
-            return {
-                state,
-            }
-        }
+        case types.ADMIN_EDIT_USER:
+            return action.user
         default:
             return state
     }
 }
-export default myReducer
+export default AdminUserEditing

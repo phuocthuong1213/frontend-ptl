@@ -66,9 +66,9 @@ function Header(props) {
     );
 }
 
-const mapStateToProps = (reduxState) => {
+const mapStateToProps = (state) => {
     return {
-        user: reduxState.user
+        user: state.user
     }
 }
 
